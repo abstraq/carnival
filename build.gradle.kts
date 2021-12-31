@@ -42,10 +42,13 @@ sonarqube {
 license {
     headerURI = uri("HEADER")
     strictCheck = true
+
     ext["projectName"] = "Carnival"
     ext["name"] = "abstraq"
     ext["email"] = "abstraq@outlook.com"
     ext["year"] = Year.now().toString()
+
+    mapping("java", "SLASHSTAR_STYLE")
 }
 
 tasks.withType<JavaCompile>().configureEach {

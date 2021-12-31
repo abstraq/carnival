@@ -1,4 +1,4 @@
-/**
+/*
  * This file is part of Carnival.
  * Copyright 2021 abstraq <abstraq@outlook.com>
  *
