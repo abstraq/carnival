@@ -1,10 +1,13 @@
+import com.github.jengelman.gradle.plugins.shadow.tasks.ConfigureShadowRelocation
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+
 import java.time.Year
 
 plugins {
     id("java")
-    id("application")
     id("org.sonarqube") version "3.3"
     id("com.github.hierynomus.license") version "0.16.1"
+    id("com.github.johnrengelman.shadow") version "7.1.2"
 }
 
 group = "me.abstraq"
@@ -49,6 +52,22 @@ license {
     ext["year"] = Year.now().toString()
 
     mapping("java", "SLASHSTAR_STYLE")
+}
+
+tasks.create<ConfigureShadowRelocation>("relocateShadowJar") {
+    target = tasks["shadowJar"] as ShadowJar
+    prefix = "me.abstraq.carnival.libs"
+}
+
+tasks.named<ShadowJar>("shadowJar").configure {
+    dependsOn(tasks["relocateShadowJar"])
+    mergeServiceFiles()
+    minimize()
+    archiveBaseName.set("carnival")
+    archiveClassifier.set("")
+    manifest {
+        attributes["Main-Class"] = "me.abstraq.carnival.Carnival"
+    }
 }
 
 tasks.withType<JavaCompile>().configureEach {

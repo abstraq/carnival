@@ -1,0 +1,7 @@
+.idea/
+.git/
+.github/
+.gradle/
+build/
+gradle/
+Dockerfile
