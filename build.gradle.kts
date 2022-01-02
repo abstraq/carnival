@@ -1,12 +1,10 @@
-import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
-
 import java.time.Year
 
 plugins {
     id("java")
+    id("application")
     id("org.sonarqube") version "3.3"
     id("com.github.hierynomus.license") version "0.16.1"
-    id("com.github.johnrengelman.shadow") version "7.1.2"
 }
 
 group = "me.abstraq"
@@ -37,6 +35,10 @@ dependencies {
     implementation("org.postgresql", "postgresql", "42.3.1")
 }
 
+application {
+    mainClass.set("me.abstraq.carnival.Carnival")
+}
+
 sonarqube {
     properties {
         property("sonar.projectKey", "abstraq_carnival")
@@ -56,16 +58,6 @@ license {
 
     include("**/*.java")
     mapping("java", "SLASHSTAR_STYLE")
-}
-
-tasks.named<ShadowJar>("shadowJar").configure {
-    mergeServiceFiles()
-    minimize()
-    archiveBaseName.set("carnival")
-    archiveClassifier.set("")
-    manifest {
-        attributes["Main-Class"] = "me.abstraq.carnival.Carnival"
-    }
 }
 
 tasks.withType<JavaCompile>().configureEach {
