@@ -56,7 +56,6 @@ license {
     ext["email"] = "abstraq@outlook.com"
     ext["year"] = Year.now().toString()
 
-    include("**/*.java")
     mapping("java", "SLASHSTAR_STYLE")
 }
 

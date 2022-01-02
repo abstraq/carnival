@@ -1,4 +1,22 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    This file is part of Carnival.
+    Copyright 2021 abstraq <abstraq@outlook.com>
+
+    Carnival is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Carnival is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Carnival.  If not, see <https://www.gnu.org/licenses/>.
+
+-->
 <configuration>
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
@@ -6,7 +24,32 @@
         </encoder>
     </appender>
 
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/carnival.log</file>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>logs/carnival.%d{MM-dd-yyyy}.%i.log.gz</fileNamePattern>
+            <!-- Keep 30 Days of History -->
+            <maxHistory>30</maxHistory>
+
+            <!-- Roll when file reaches 10 MB -->
+            <maxFileSize>10MB</maxFileSize>
+
+            <!-- Delete old logs when 3GB of logs are stored -->
+            <totalSizeCap>3GB</totalSizeCap>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>[%d{MM/dd/YYYY HH:mm:ss}] [%thread/%level] [%logger]: %msg%n%ex</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="FILE" />
+    </appender>
+
     <root level="info">
         <appender-ref ref="STDOUT"/>
+        <appender-ref ref="ASYNC"/>
     </root>
 </configuration>
