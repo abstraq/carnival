@@ -23,7 +23,7 @@ import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
-import org.jetbrains.annotations.NotNull;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,7 +42,7 @@ public final class Carnival {
      * Handle any initialization tasks for carnival. This method is run
      * whenever the bot is started.
      */
-    public void initialize(final @NotNull String token) throws LoginException {
+    public void initialize(final @NonNull String token) throws LoginException {
         this.logger.info("Starting the carnival...");
 
         //  Initialize JDA instance and login.

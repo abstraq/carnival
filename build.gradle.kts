@@ -1,4 +1,3 @@
-import com.github.jengelman.gradle.plugins.shadow.tasks.ConfigureShadowRelocation
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 
 import java.time.Year
@@ -21,6 +20,8 @@ repositories {
 dependencies {
     implementation("net.dv8tion", "JDA", "5.0.0-alpha.3") {
         exclude("club.minnced", "opus-java")
+        exclude("com.google.code.findbugs", "jsr305")
+        exclude("org.jetbrains", "annotations")
     }
 
     implementation("com.zaxxer", "HikariCP", "5.0.0") {
@@ -30,6 +31,8 @@ dependencies {
     implementation("ch.qos.logback", "logback-classic", "1.2.7") {
         exclude("org.slf4j", "slf4j-api")
     }
+
+    implementation("org.checkerframework", "checker-qual", "3.21.0")
 
     implementation("org.postgresql", "postgresql", "42.3.1")
 }
@@ -55,13 +58,7 @@ license {
     mapping("java", "SLASHSTAR_STYLE")
 }
 
-tasks.create<ConfigureShadowRelocation>("relocateShadowJar") {
-    target = tasks["shadowJar"] as ShadowJar
-    prefix = "me.abstraq.carnival.libs"
-}
-
 tasks.named<ShadowJar>("shadowJar").configure {
-    dependsOn(tasks["relocateShadowJar"])
     mergeServiceFiles()
     minimize()
     archiveBaseName.set("carnival")
